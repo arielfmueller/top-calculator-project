@@ -1,13 +1,15 @@
 :root {
     font-size: 16px;
     --calculatorBackground: #333;
-    --menuBackground: #333;
+    --menuBackground: rgba(255, 255, 255, 0.1);
+    --titleBorder: 1px solid rgba(255, 255, 255, .1);
+    --footerBorder: 1px solid rgba(255, 255, 255, .1);
     --title: purple;
     --text: #f3f6fa;
     --border: black;
-    --btnBackground: silver;
+    --btnBackground: rgba(255, 255, 255, .5);
     --btnFontSize: 1.5rem;
-    --btnFont: ;
+    --btnFont: 'Share Tech Mono';
     --btnBorder: 1px solid grey; 
 }
 
@@ -19,7 +21,7 @@
 
 body {
   margin: 0;
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: 'Share Tech Mono', Helvetica, sans-serif;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -32,14 +34,20 @@ body {
     position: fixed;
     top: 0;
     padding: 1rem;
-    background: #333
+    width: 100%;
+    text-align: center;
+    background: var(--menuBackground);
+    border-bottom: var(--titleBorder);
 }
 
-.footer {
-    margin-top: auto;
-    width: 100%;
+.footer_div {
+    position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
     padding: 1rem;
-    background: #333;
+    background: var(--menuBackground);
+    border-top: var(--footerBorder);
 }
 
 .calculator {
@@ -51,18 +59,19 @@ body {
   max-height: 25rem;
   background: rgba(255, 255, 255, .2);
   backdrop-filter: blur(12px);
-  box-shadow: 0 8px 12px 0 rgba(31, 38, 135, 0.37);
-  border: 1px solid rgba(255, 255, 255, .3);
+  box-shadow: 0 8px 12px 0 rgba(31, 34, 88, 0.3);
+  border: 1px solid rgba(255, 255, 255, .1);
   padding: 30px;
   border-radius: 24px;
   gap: 1rem;
-  flex: 1;
+  
 }
 
 .display {
   width: 100%;
   height: 3rem;
-  background: lightgrey;
+  background: var(--btnBackground);
+  border: var(--btnBorder);
   border-radius: 12px;
   font-size: 2rem;
   display: flex;
@@ -89,5 +98,16 @@ body {
   border-radius: 50%;
   font-size: var(--btnFontSize);
   border: var(--btnBorder);
+  background: var(--btnBackground);
   font-family: var(--btnFont), Helvetica, sans-serif;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+
+button:hover {
+  background: rgba(206, 206, 206, 0.3);
+}
+
+button:active {
+  background: rgba(0, 0, 0, .4);
 }
