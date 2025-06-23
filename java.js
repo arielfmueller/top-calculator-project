@@ -49,68 +49,89 @@ display.textContent = "0";
 
 const powerBtn = document.querySelector("#power");
 
-// Function for the button clear
-clear.addEventListener("click", () => {
-  if (display.textContent != "") {
-    return (display.textContent = "0");
-  }
-});
-
-// Function for the power button
-powerBtn.addEventListener("click", () => {
-  if (display.textContent != "") {
-    return display.textContent = ""
-  } else {
-    return display.textContent = "0"
-  }
-});
-
-// Function for buttons
 const numberButtons = document.querySelectorAll(".number");
-
-numberButtons.forEach((button) => {
-  button.addEventListener("click", (e) => {
-    // e.target.textContent gives you the button's value
-    display.textContent = ""
-    display.textContent = e.target.textContent;
-    if (firstInput == null || firstInput == "") {
-      firstInput += e.target.textContent
-      console.log(firstInput)
-      console.log(secondInput)
-    } else if (!operator) {
-      display.textContent = "Choose an operator!";
-    } else { 
-      secondInput = e.target.textContent;
-      console.log(firstInput)
-      console.log(secondInput)
-    }
-  });
-});
 
 const operatorButtons = document.querySelectorAll(".operator");
 
-operatorButtons.forEach((button) => {
+const equalButton = document.querySelectorAll(".equal");
+
+// Function for the button clear
+clear.addEventListener("click", () => {
+  firstInput = "";
+  operator = "";
+  secondInput = "";
+  result = "";
+  display.textContent = "0";
+  console.log(`firstInput: ${firstInput}`);
+  console.log(`operator: ${operator}`);
+  console.log(`secondInput: ${secondInput}`);
+  console.log(`result: ${result}`);
+});
+
+// Function for the power button
+let isOn = false;
+const allButtons = document.querySelectorAll("button:not(#power)");
+allButtons.forEach(btn => btn.disabled = true);
+display.textContent = "OFF";
+powerBtn.addEventListener("click", () => {
+  isOn = !isOn;
+  allButtons.forEach(btn => btn.disabled = !isOn)
+  display.textContent = isOn ? "0" : "OFF";
+  firstInput = "";
+  operator = "";
+  secondInput = "";
+  result = "";
+});
+
+// Function for number buttons
+numberButtons.forEach((button) => {
   button.addEventListener("click", (e) => {
-    display.textContent = ""
-    if (firstInput == null || firstInput == "") {
-      display.textContent = "Choose an initial input"
+    display.textContent = "";
+    if (result && !operator) {
+      firstInput = "";
+      firstInput += e.target.textContent;
+      display.textContent = firstInput;
+    } else if (!operator) {
+      firstInput += e.target.textContent;
+      display.textContent = firstInput;
+      console.log(`firstInput: ${firstInput}`);
+      console.log(`secondInput: ${secondInput}`);
     } else {
-      display.textContent = firstInput
-      operator = e.target.textContent
-      console.log(operator)
+      secondInput += e.target.textContent;
+      display.textContent += secondInput;
+      console.log(`firstInput: ${firstInput}`);
+      console.log(`secondInput: ${secondInput}`);
     }
   });
 });
 
-const equalButton = document.querySelectorAll(".equal");
+// Function for operator buttons
+operatorButtons.forEach((button) => {
+  button.addEventListener("click", (e) => {
+    display.textContent = "";
+    if (firstInput == null || firstInput == "") {
+      display.textContent = "Choose an initial input";
+    } else {
+      display.textContent = firstInput;
+      operator = e.target.textContent;
+      console.log(`operator: ${operator}`);
+    }
+  });
+});
+
+//Function for equal button
 equalButton.forEach((button) => {
   button.addEventListener("click", (e) => {
     if (!firstInput && !secondInput) {
-      display.textContent = "0"
+      display.textContent = "0";
+      // } else if (!result == null || !result == "") {
     } else {
-      result = operate(firstInput, operator, secondInput)
-      display.textContent = result
-      console.log(result)
+      result = operate(firstInput, operator, secondInput);
+      display.textContent = result;
+      firstInput = result;
+      operator = "";
+      secondInput = "";
+      console.log(`result: ${result}`);
     }
   });
 });
