@@ -11,6 +11,7 @@
     --btnFontSize: 1.5rem;
     --btnFont: 'Share Tech Mono';
     --btnBorder: 1px solid grey; 
+    --menuFontSize: .8rem;
 }
 
 *,
@@ -55,16 +56,15 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 350px; /*clamp(400px,30vw, 400px);*/
-  max-height: 25rem;
+  width: 350px;
+  max-height: 30rem;
   background: rgba(255, 255, 255, .2);
   backdrop-filter: blur(12px);
   box-shadow: 0 8px 12px 0 rgba(31, 34, 88, 0.3);
   border: 1px solid rgba(255, 255, 255, .1);
-  padding: 30px;
+  padding: 2rem 1.5rem;
   border-radius: 24px;
   gap: 1rem;
-  
 }
 
 .display {
@@ -79,6 +79,7 @@ body {
   align-items: center;
   padding-right: 1rem;
 }
+
 .buttons {
   display: flex;
   justify-content: center;
@@ -86,13 +87,11 @@ body {
   flex-direction: row;
   flex-wrap: wrap;
   width: 100%;
-  gap: 0.5rem;
+  gap: 0.9rem;
 }
 
 .operator,
-.number,
-.clear,
-.equal {
+.number, .equal {
   width: 4rem;
   height: 4rem;
   border-radius: 50%;
@@ -105,9 +104,42 @@ body {
 }
 
 button:hover {
-  background: rgba(206, 206, 206, 0.3);
+  border: 1px solid rgba(180, 0, 0, 0.5)
 }
 
 button:active {
   background: rgba(0, 0, 0, .4);
+}
+
+.operator, .equal {
+  background: rgba(0, 0, 0, .1);
+}
+
+.div-menu {
+  display: flex;
+  gap: 1rem;
+  align-self: flex-end;
+}
+
+.menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 4rem;
+  height: 1.5rem;
+  border-radius: 12px;
+  font-size: var(--menuFontSize);
+  border: var(--btnBorder);
+  background: var(--btnBackground);
+  font-family: var(--btnFont), Helvetica, sans-serif;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+
+.menu:first-of-type {
+  background: rgba(180, 0, 0, 0.5)
+}
+
+.menu:nth-of-type(2) {
+  background: rgba(255, 196, 0, 0.5);
 }
