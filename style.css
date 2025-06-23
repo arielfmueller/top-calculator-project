@@ -61,7 +61,7 @@ body {
   background: rgba(255, 255, 255, .2);
   backdrop-filter: blur(12px);
   box-shadow: 0 8px 12px 0 rgba(31, 34, 88, 0.3);
-  border: 1px solid rgba(255, 255, 255, .1);
+  border: 1px solid rgba(255, 255, 255, .5);
   padding: 2rem 1.5rem;
   border-radius: 24px;
   gap: 1rem;
@@ -78,6 +78,7 @@ body {
   justify-content: right;
   align-items: center;
   padding-right: 1rem;
+  overflow: hidden;
 }
 
 .buttons {
@@ -91,7 +92,7 @@ body {
 }
 
 .operator,
-.number, .equal {
+.number, .equal, .dot {
   width: 4rem;
   height: 4rem;
   border-radius: 50%;
@@ -111,7 +112,7 @@ button:active {
   background: rgba(0, 0, 0, .4);
 }
 
-.operator, .equal {
+.operator, .equal, .dot {
   background: rgba(0, 0, 0, .1);
 }
 

@@ -55,6 +55,8 @@ const operatorButtons = document.querySelectorAll(".operator");
 
 const equalButton = document.querySelectorAll(".equal");
 
+const dot = document.querySelector(".dot");
+
 // Function for the button clear
 clear.addEventListener("click", () => {
   firstInput = "";
@@ -62,20 +64,16 @@ clear.addEventListener("click", () => {
   secondInput = "";
   result = "";
   display.textContent = "0";
-  console.log(`firstInput: ${firstInput}`);
-  console.log(`operator: ${operator}`);
-  console.log(`secondInput: ${secondInput}`);
-  console.log(`result: ${result}`);
 });
 
 // Function for the power button
 let isOn = false;
 const allButtons = document.querySelectorAll("button:not(#power)");
-allButtons.forEach(btn => btn.disabled = true);
+allButtons.forEach((btn) => (btn.disabled = true));
 display.textContent = "OFF";
 powerBtn.addEventListener("click", () => {
   isOn = !isOn;
-  allButtons.forEach(btn => btn.disabled = !isOn)
+  allButtons.forEach((btn) => (btn.disabled = !isOn));
   display.textContent = isOn ? "0" : "OFF";
   firstInput = "";
   operator = "";
@@ -87,20 +85,17 @@ powerBtn.addEventListener("click", () => {
 numberButtons.forEach((button) => {
   button.addEventListener("click", (e) => {
     display.textContent = "";
-    if (result && !operator) {
+    if (result !== "" && !operator) {
+      result = "";
       firstInput = "";
       firstInput += e.target.textContent;
       display.textContent = firstInput;
     } else if (!operator) {
       firstInput += e.target.textContent;
       display.textContent = firstInput;
-      console.log(`firstInput: ${firstInput}`);
-      console.log(`secondInput: ${secondInput}`);
     } else {
       secondInput += e.target.textContent;
       display.textContent += secondInput;
-      console.log(`firstInput: ${firstInput}`);
-      console.log(`secondInput: ${secondInput}`);
     }
   });
 });
@@ -109,29 +104,86 @@ numberButtons.forEach((button) => {
 operatorButtons.forEach((button) => {
   button.addEventListener("click", (e) => {
     display.textContent = "";
-    if (firstInput == null || firstInput == "") {
-      display.textContent = "Choose an initial input";
-    } else {
-      display.textContent = firstInput;
+    if (firstInput !== "" && operator && secondInput !== "") {
+      result = operate(firstInput, operator, secondInput);
+      firstInput = result.toString();
       operator = e.target.textContent;
+      secondInput = "";
+      display.textContent = firstInput;
+    } else if (result == "0" && e.target.textContent == "-") {
+      operator = e.target.textContent;
+      display.textContent = "";
+    } else if (
+      e.target.textContent === "-" &&
+      (firstInput == null || firstInput == "")
+    ) {
+      firstInput = e.target.textContent;
+      display.textContent = firstInput;
+    } else if (firstInput == null || firstInput == "") {
+      operator = "";
+      display.textContent = "0";
+    } else {
+      operator = e.target.textContent;
+      display.textContent = "";
       console.log(`operator: ${operator}`);
     }
   });
 });
+
+//Function for rounding results to 2 decimal places
+function formatResult(num) {
+  if (Number.isInteger(num)) {
+    return num;
+  } else {
+    return Number(num.toFixed(2));
+  }
+}
 
 //Function for equal button
 equalButton.forEach((button) => {
   button.addEventListener("click", (e) => {
     if (!firstInput && !secondInput) {
       display.textContent = "0";
-      // } else if (!result == null || !result == "") {
+    } else if (firstInput && !operator) {
+      display.textContent = firstInput;
     } else {
       result = operate(firstInput, operator, secondInput);
+      result = formatResult(result);
       display.textContent = result;
       firstInput = result;
       operator = "";
       secondInput = "";
-      console.log(`result: ${result}`);
     }
   });
+});
+
+// Function for decimal numbers
+dot.addEventListener("click", (e) => {
+  if (
+    (firstInput === null || firstInput === "") &&
+    display.textContent === "0" &&
+    !firstInput.includes(".")
+  ) {
+    firstInput += "0.";
+    display.textContent = firstInput;
+    } else if (firstInput !== "" && !operator && !firstInput.includes(".")) {
+    firstInput += ".";
+    display.textContent = firstInput;
+  } else if (
+    firstInput !== "" &&
+    operator &&
+    secondInput == "" &&
+    !secondInput.includes(".")
+  ) {
+    secondInput += "0.";
+    display.textContent = secondInput;
+  } else if (
+    firstInput !== "" &&
+    operator &&
+    secondInput !== "" &&
+    !secondInput.includes(".")
+  ) {
+    secondInput += ".";
+    display.textContent = secondInput;
+  }
 });
